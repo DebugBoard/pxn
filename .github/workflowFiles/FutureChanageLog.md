@@ -1,3 +1,3 @@
-- Fix hiding statusbar icons (NOTE: some icons are now in jetpack compose and can not be hidden)
-- Fix Quick QS Panel pulldown gesture
-- Fix notification default expansion
+- Optimize Magisk install scripts and remove unnecessary files/functions for KSU/APatch
+- Fix shuffle pin for compose keyguard (the one on android betas and the new September Stable)
+- Use the inbuilt easy unlock for all pin lengths (system one restricts it for only >=6 digits)

@@ -1,7 +1,7 @@
 PKGNAME="sh.siava.pixelxpert"
-PKGPATH="/system/priv-app/PixelXpert-Next/PixelXpert-Next.apk"
 LSPDDBPATH="/data/adb/lspd/config/modules_config.db"
 MAGISKDBPATH="/data/adb/magisk.db"
+
 
 prepareSQL(){
 	unzip $ZIPFILE sqlite3 -d $TMPDIR/ > /dev/null
@@ -103,19 +103,7 @@ assert16QPR
 
 testKernelSU
 
-enforceSepolicyWhitelist()
-{
-	# Whitelist approach: only keep sepolicy.rule if it's a pure Magisk install
-	# KSU and APatch might spoof MAGISK_VER_CODE, so we explicitly ensure they are not active.
-	if [ -n "$MAGISK_VER_CODE" ] && [ "$KSU" != "true" ] && [ "$APATCH" != "true" ]; then
-		ui_print "- Magisk detected, keeping and applying sepolicy.rule"
-		magiskpolicy --live --apply "$MODPATH/sepolicy.rule"
-	else
-		# If not Magisk (or if it's KSU/APatch), remove the rule
-		rm -f "$MODPATH/sepolicy.rule"
-	fi
-}
-enforceSepolicyWhitelist
+
 
 prepareSQL
 
@@ -132,7 +120,31 @@ fi
 
 set_perm $MODPATH/service.sh 0 0 0755
 
-if [ $(ls $LSPDDBPATH) = $LSPDDBPATH ]; then
+ui_print ''
+ui_print ''
+
+ui_print '- Preparing PixelXpert-Next app for installation...'
+APK_PATH="$MODPATH/PixelXpert-Next.apk"
+if [ -f "$APK_PATH" ]; then
+	touch "$MODPATH/install_needed"
+	ui_print "- App will be installed automatically on boot."
+else
+	ui_print "- APK not found in zip!"
+fi
+
+# Backup data for migration from system app to user app
+if pm list packages -s | grep -q "package:$PKGNAME"; then
+	if [ -d "/data/user_de/0/$PKGNAME/shared_prefs" ]; then
+		ui_print "- System app detected. Backing up preferences for migration..."
+		mkdir -p "$MODPATH/px_backup_de"
+		cp -af "/data/user_de/0/$PKGNAME/shared_prefs" "$MODPATH/px_backup_de/"
+	fi
+fi
+
+# Make sure system folder doesn't exist so it doesn't mount as priv-app
+rm -rf "$MODPATH/system"
+
+if [ -f "$LSPDDBPATH" ]; then
 	ui_print ''
 	ui_print ''
 

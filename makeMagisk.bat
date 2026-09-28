@@ -1,7 +1,7 @@
-cp app\release\PixelXpert-Next.apk MagiskModBase\system\priv-app\PixelXpert-Next
+cp app\release\PixelXpert-Next.apk MagiskModBase\
 
 cd MagiskModBase
 
 zip -r -9 -q ..\PixelXpert-Next.zip *.*
 
-rm -Rf system\priv-app\PixelXpert-Next\PixelXpert-Next.apk
+rm -Rf PixelXpert-Next.apk

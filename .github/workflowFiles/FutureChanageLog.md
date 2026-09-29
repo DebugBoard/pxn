@@ -1,3 +1,5 @@
-- Optimize Magisk install scripts and remove unnecessary files/functions for KSU/APatch
-- Fix shuffle pin for compose keyguard (the one on android betas and the new September Stable)
-- Use the inbuilt easy unlock for all pin lengths (system one restricts it for only >=6 digits)
+MANUAL FLASHING IS REQUIRED FOR THIS BUILD!!!!
+RE-GRANTING ROOT + RE-ENABLING IN LSPOSED IS NEEDED ON BOOT UP FOLLOWED BY A REBOOT TO HOOK INTO SYSTEM!!!
+READ MORE ON XDA Thread!!!!!
+- Switch PX-N from a system priv-app to a user app
+- Add caffeine QS tile

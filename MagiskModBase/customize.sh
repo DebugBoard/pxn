@@ -123,11 +123,16 @@ set_perm $MODPATH/service.sh 0 0 0755
 ui_print ''
 ui_print ''
 
-ui_print '- Preparing PixelXpert-Next app for installation...'
+ui_print '- Installing PixelXpert-Next app...'
 APK_PATH="$MODPATH/PixelXpert-Next.apk"
 if [ -f "$APK_PATH" ]; then
-	touch "$MODPATH/install_needed"
-	ui_print "- App will be installed automatically on boot."
+	pm install -r -d "$APK_PATH" > /dev/null 2>&1
+	if [ $? -eq 0 ]; then
+		ui_print "- App installed successfully!"
+	else
+		ui_print "- Failed to install app! Will retry on boot."
+		touch "$MODPATH/install_needed"
+	fi
 else
 	ui_print "- APK not found in zip!"
 fi
@@ -139,6 +144,8 @@ if pm list packages -s | grep -q "package:$PKGNAME"; then
 		mkdir -p "$MODPATH/px_backup_de"
 		cp -af "/data/user_de/0/$PKGNAME/shared_prefs" "$MODPATH/px_backup_de/"
 	fi
+	# Android will wipe the app on boot because the system base disappears, so we must reinstall it on boot.
+	touch "$MODPATH/install_needed"
 fi
 
 # Make sure system folder doesn't exist so it doesn't mount as priv-app

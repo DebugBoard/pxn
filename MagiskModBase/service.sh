@@ -56,7 +56,7 @@ done
 if [ -f "$MODDIR/install_needed" ]; then
 	APP_EXISTS=$(pm list packages | grep "sh.siava.pixelxpert")
 
-	pm install -r "$MODDIR/PixelXpert-Next.apk" > /dev/null 2>&1
+	pm install -r -d "$MODDIR/PixelXpert-Next.apk" > /dev/null 2>&1
 	rm -f "$MODDIR/install_needed"
 
 	# Only restore backup if the app was actually wiped by Android (migration from system app)

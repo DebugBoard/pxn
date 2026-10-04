@@ -37,11 +37,12 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-        with:
-          build-root-directory: FingerprintBgRemover
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          #the default package set still asks for the long gone "tools" package
+          packages: ''
 
       - name: Install build platform
         run: sdkmanager --install "platforms;android-36"

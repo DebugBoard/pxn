@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">Fingerprint BG Remover</string>
+	<string name="module_description">Removes the background circle behind the lock screen fingerprint (device entry) icon. Nothing else.</string>
+
+	<string-array name="xposedscope">
+		<item>com.android.systemui</item>
+	</string-array>
+</resources>
